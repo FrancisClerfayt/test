@@ -1,6 +1,13 @@
 # data.md
 
 <!-- Onglet CROC -->
+--DEBUT--
+RCT: false
+ACTIF: false
+RCTP2F2R: false
+IMAGES: false
+CROC: true
+---FIN---
 
 <!-- Options pour select id=croc-cadrage -->
 # CROCcadrage
