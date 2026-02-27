@@ -3,21 +3,12 @@ let paramsMarkdown = {}; // Stocke les paramètres extraits du fichier Markdown
 let datasMarkdown = {}; // Stocke les données extraites du fichier Markdown
 
 // Détermine l'URL et test la présence d'une URL après le # pour le fichier Markdown
-// function getUrlMd(){
-//   // Déterminer l'URL
-//   let mdUrl = "data/data.md";
-//   return mdUrl;
-// }
 function getUrlMd(){
   // Déterminer l'URL
-  let mdUrl = window.location.hash.substring(1) || "data/data.md";
-  // Vérifier si l'URL est valide
-  if (!mdUrl.startsWith("http") && !mdUrl.startsWith("https") && !mdUrl.startsWith("data/")) {
-    alert("URL invalide. Assurez-vous qu'elle commence par 'http' ou 'data/' !");
-  }
-  if (!mdUrl.startsWith("data/")) {return mdUrl + "/download" }
-  else {return mdUrl;}
+  let mdUrl = "data/data.md";
+  return mdUrl;
 }
+
 
 // Fonction pour extraire les paramètres du bloc "--DEBUT-- ... ---FIN---"
 function extractparamsMarkdown(text) {
@@ -38,92 +29,14 @@ function extractparamsMarkdown(text) {
 }
 
 //Charge les options pour les champs
-// function loadOptions() {
-//
-//   urlToLoad = getUrlMd();
-//
-//   fetch(urlToLoad)
-//   .then(response => response.text())
-//   .then(text => {
-//     const selectElements = {
-//       "CROCcadrage" : document.getElementById('croc-cadrage'),
-//       "CROCrole" : document.getElementById('croc-role1'),
-//       "CROCcible" : document.getElementById('croc-cible')
-//     };
-//
-//     // Nettoyer tous les <select>
-//     Object.values(selectElements).forEach(select => {
-//       if (select) select.innerHTML = '<option value="0">-- Sélectionner --</option>';;
-//       // Éviter les duplications
-//     });
-//
-//     // Découper le texte en sections selon les titres Markdown
-//     const lines = text.split('\n');
-//     let currentCategory = null;
-//     datasMarkdown = {};
-//
-//     lines.foreach(line => {
-//       line = line.trim();
-//
-//       // Ignorer les lignes de commentaires HTML
-//       if (line.startsWith('<!--') && line.endsWith('-->')) {
-//         return;
-//       }
-//
-//       if (line.startsWith('# ')) {
-//         currentCategory = line.substring(2).trim(); // Récupère le titre sans "#"
-//         datasMarkdown[currentCategory] = [];
-//       } else if (currentCategory && line) {
-//         datasMarkdown[currentCategory].push(line);
-//       }
-//     });
-//
-//     // Ajouter les options aux <select>
-//     Object.entries(selectElements).forEach(([category, selectElement]) => {
-//       if (selectElement && datasMarkdown[category]) {
-//         datasMarkdown[category].forEach(optionText => {
-//           let option = document.createElement('option');
-//           option.value = optionText;
-//           option.textContent = optionText;
-//           selectElement.appendChild(option);
-//         });
-//       }
-//     });
-//
-//   })
-//   .catch(error => {
-//     alert('Erreur de chargement du fichier !', error);
-//   });
-// }
-
-// Charge les options pour les selects id=rct-metier1, id=actif-metier1, id=actif-contexte1, id=actif-tonalite et actif-format
 function loadOptions() {
-  // Récupération de l'URL
+
   urlToLoad = getUrlMd();
-  // Lecture du Markdown
+
   fetch(urlToLoad)
   .then(response => response.text())
   .then(text => {
-
-    // Extraction des paramètres
-    const paramsMarkdown = extractparamsMarkdown(text);
-    AfficherMasquerOnglets();
-
-    // Definition des selects html à remplir
     const selectElements = {
-      "RCTrole": document.getElementById('rct-metier1'),
-      "RCTcontexte": document.getElementById('rct-contexte1'),
-      "RCTebep": document.getElementById('rct-ebep'),
-      "ACTIFidentite": document.getElementById('actif-metier1'),
-      "ACTIFcontexte": document.getElementById('actif-contexte1'),
-      "ACTIFebep": document.getElementById('actif-ebep'),
-      "ACTIFtonalite": document.getElementById('actif-tonalite'),
-      "ACTIFformat": document.getElementById('actif-format'),
-      "RCTP2F2Rrole": document.getElementById('rctp2f2r-metier1'),
-      "RCTP2F2Rcontexte": document.getElementById('rctp2f2r-contexte1'),
-      "RCTP2F2Rebep": document.getElementById('rctp2f2r-ebep'),
-      "RCTP2F2Rformat": document.getElementById('rctp2f2r-format'),
-      "RCTP2F2Rforme": document.getElementById('rctp2f2r-forme'),
       "CROCcadrage" : document.getElementById('croc-cadrage'),
       "CROCrole" : document.getElementById('croc-role1'),
       "CROCcible" : document.getElementById('croc-cible')
@@ -131,7 +44,8 @@ function loadOptions() {
 
     // Nettoyer tous les <select>
     Object.values(selectElements).forEach(select => {
-      if (select) select.innerHTML = '<option value="0">-- Sélectionner --</option>';; // Éviter les duplications
+      if (select) select.innerHTML = '<option value="0">-- Sélectionner --</option>';;
+      // Éviter les duplications
     });
 
     // Découper le texte en sections selon les titres Markdown
@@ -139,16 +53,11 @@ function loadOptions() {
     let currentCategory = null;
     datasMarkdown = {};
 
-    lines.forEach(line => {
+    lines.foreach(line => {
       line = line.trim();
 
       // Ignorer les lignes de commentaires HTML
       if (line.startsWith('<!--') && line.endsWith('-->')) {
-        return;
-      }
-
-      // Ignorer le bloc de paramétrage
-      if (line.startsWith('--DEBUT--') && line.endsWith('---FIN---')) {
         return;
       }
 
