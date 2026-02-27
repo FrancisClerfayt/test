@@ -1,10 +1,19 @@
 // Initialisation des variables globales
 let datasMarkdown = {}; // Stocke les données extraites du fichier Markdown
-let mdUrl = "data/data.md";
+
+// Détermine l'URL et test la présence d'une URL après le # pour le fichier Markdown
+function getUrlMd(){
+  // Déterminer l'URL
+  let mdUrl = "data/data.md";
+  return mdUrl;
+}
 
 //Charge les options pour les champs
 function loadOptions() {
-  fetch(mdUrl)
+
+  urlToLoad = getUrlMd();
+
+  fetch(urlToLoad)
   .then(response => response.text())
   .then(text => {
     const selectElements = {
