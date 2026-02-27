@@ -83,7 +83,7 @@ h1 {
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius);
 	box-shadow: var(--shadow);
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 /* -------- Paragraphes & listes -------- */

@@ -1,353 +1,146 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Assistant de création de prompt</title>
-  <link href="css/style.min.css" rel="stylesheet">
-</head>
-<body onload="loadOptions();">
-  <main>
-    <div id="menu-tab">
-      <div id="page-wrap">
-        <h1>Assistant de création de prompt</h1>
-        <div class="tabs">
-          <!----------------onglet-01-R-C-T-------------------------->
-          <div style="display:none;" id="div-rct" class="tab">
-            <input id="tab-1" name="tab-group-1" type="radio" />
-            <label for="tab-1">R-C-T</label>
-            <div class="content">
-              <form id="rct-form" onsubmit="return sentform(event, 'rct');">
-                <div class="formcontainer" id="form-container">
-                  <div class="container" >Préambule<hr/>
-                    <p class="width-100">
-                      Cet assistant de création de prompt pour <b>IA générative de texte</b> est basé sur la méthode :
-                    </p>
-                    <div class="center">
-                      <span>R</span>ôle <span>C</span>ontexte <span>T</span>âche
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant de création de prompt</title>
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  <body onload="loadOptions();">
+    <main>
+      <div id="menu-tab">
+        <div id="page-wrap">
+          <h1>Assistant de création de prompt</h1>
+          <div class="tabs">
+            <div class="tab" id="div-croc">
+              <input type="radio" name="tab-group-1" id="tab-1">
+              <label for="tab-1">C-R-O-C</label>
+              <div class="content">
+                <form id="croc-form" onsubmit="return sentform(event, 'croc')">
+                  <div class="formcontainer" id="form-container">
+                    <div class="container">Préambule<hr>
+                      <p class="width-100">
+                        Cet assistant de création de prompt pour <b>IA générative de texte</b> est basé sur la méthode :
+                      </p>
+                      <div class="center">
+                        <span>C</span>adrage <span>R</span>ôle <span>O</span>bjectif <span>C</span>ible
+                      </div>
+                      <p class="width-100">
+                        Il a pour but de vous aider dans la construction de votre prompt avec des propositions.
+                      </p>
                     </div>
-                    <p class="width-100">
-                      Il a pour but de vous aider dans la construction de votre prompt avec des propositions.
-                    </p>
-                  </div>
-                  <div class="container" >Définir un <span>R</span>ôle<hr/>
-                    <p class="width-100">Je suis
-                      <select class="width-35" name="rct-metier1" id="rct-metier1" onchange="updateOptions('rct-metier1','rct-metier2','area_rct-role');" >
-                        <option value="0">-- Sélectionner --</option>
-                      </select>
-                      <select class="width-45" name="rct-metier2" id="rct-metier2" onchange="writeinArea2('rct-metier1','rct-metier2','area_rct-role');">
-                        <option value="0">-- Sélectionner --</option>
-                      </select>
-                    </p>
-                    <p class="width-100">
-                      <textarea class="width-90" id="area_rct-role" name="area_rct-role" placeholder="Sélectionner ou indiquer le rôle que doit tenir l'agent conversationnel. Exemple : Je veux que tu agisses comme un(e) [métier]." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                    </p>
-                  </div>
-                  <div class="container" >Définir un <span>C</span>ontexte<hr/>
-                    <p class="width-100">
-                      <select class="width-35" name="rct-contexte1" id="rct-contexte1" onchange="updateOptions('rct-contexte1','rct-contexte2', 'area_rct-contexte');">
-                        <option value="">-- Sélectionner --</option>
-                      </select>
-                      <select class="width-45" name="rct-contexte2" id="rct-contexte2" onchange="writeinArea2('rct-contexte1','rct-contexte2','area_rct-contexte');" >
-                        <option value="">-- Sélectionner --</option>
-                      </select>
-                    </p>
-                    <p class="width-100">
-                      <textarea class="width-90" id="area_rct-contexte" name="aera_rct-contexte"  placeholder="Sélectionner ou définir le public visé. Exemple tu t'adresses à..." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                    </p>
-                    <p id="p-rct-ebep" style="display:none;" class="width-100"><b>L'élève a un besoin particulier, il est...</b>
-                      <select class="width-90" name="rct-ebep" id="rct-ebep" onchange="writeinArea('rct-ebep', 'area_rct-contexte');" >
-                        <option value="">-- Sélectionner --</option>
-                      </select>
-                    </p>
-                  </div>
-                  <div class="container" >Définir une <span>T</span>âche<hr/>
-                    <p class="width-100">
-                      <textarea class="width-90" id="area_rct-tache" name="aera_rct-tache"  placeholder="Indiquer la tâche à réaliser. Exemple : Rédige une réponse en utilisant un ton [ton : courtois, académique...]. Veille à structurer le message de manière claire avec une introduction, un développement et une conclusion et à ajouter une formule de politesse." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                    </p>
-                  </div>
-                  <div class="center" id="form-buttons">
-                    <button class="red width-35" type="button" onclick="resetFields('rct');">Effacer</button><button class="green width-35" type="submit" >Valider</button>
+
+                    <!-- Cadrage : deroulant pour longueur prompt - 200 400 600 caractères 1 2 3 paragraphes -->
+                    <div class="container">
+                      Définir un <span>C</span>adrage
+                      <p class="width-100">
+                        Je souhaite
+                        <select class="width-45" name="croc-cadrage" id="croc-cadrage" onchange="writeinArea('croc-cadrage','area_croc-cadrage');">
+                          <option value="0">-- Sélectionner --</option>
+                        </select>
+                      </p>
+                      <p class="width-100">
+                        <textarea class="width-90" id="area_croc-cadrage" name="area_croc-cadrage" placeholder="Sélectionner ou indiquer le nombre de caractères ou de paragraphes souhaité." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
+                      </p>
+                    </div>
+
+                    <!-- Role : deroulant métier et déroulant précision -->
+                    <div class="container">
+                      Définir un <span>R</span>ôle
+                      <p class="width-100">
+                        <select class="width-35" name="croc-role1" id="croc-role1" onchange="updateOptions('croc-role1','croc-role2', 'area_croc-role');">
+                          <option value="">-- Sélectionner --</option>
+                        </select>
+                        <select class="width-45" name="croc-role2" id="croc-role2" onchange="writeinArea2('croc-role1','croc-role2','area_croc-role');" >
+                          <option value="">-- Sélectionner --</option>
+                        </select>
+                      </p>
+                      <p class="width-100">
+                        <textarea class="width-90" id="area_croc-role" name="area_croc-role"  placeholder="Sélectionner ou indiquer le rôle que doit tenir l'agent conversationnel. Exemple : Je veux que tu agisses comme un(e) [métier]" rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
+                      </p>
+                    </div>
+
+                    <!-- Objectif : textarea pour l'action -->
+                    <div class="container">
+                      Définir l'<span>O</span>bjectif
+                      <p class="width-100">
+                        <textarea class="width-90" id="area_croc-obj" name="area_croc-obj"  placeholder="Indiquer l'objectif' à réaliser." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
+                      </p>
+                    </div>
+
+                    <!-- Cible : déroulant catégorie du public cible -->
+                    <div class="container">
+                      Définir une <span>C</span>ible
+                      <p class="width-100">
+                        <select class="width-45" name="croc-cible" id="croc-cible" onchange="writeinArea('croc-cible','area_croc-cible');">
+                          <option value="0">-- Sélectionner --</option>
+                        </select>
+                      </p>
+                      <p class="width-100">
+                        <textarea class="width-90" id="area_croc-cible" name="area_croc-cible" placeholder="Sélectionner ou indiquer la cible du prompt." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
+                      </p>
+                    </div>
+
+                    <!-- Boutons -->
+                    <div class="center" id="form-buttons">
+                      <button class="red width-35" type="button" onclick="resetFields('rct');">Effacer</button>
+                      <button class="green width-35" type="submit" >Valider</button>
+                    </div>
+
                   </div>
                 </form>
               </div>
             </div>
-          </div>
 
-          <!----------------onglet-02-A-C-T-I-F-------------------------->
-          <div style="display:none;" id="div-actif" class="tab">
-            <input id="tab-2" name="tab-group-1" type="radio" onclick="">
-            <label for="tab-2">A-C-T-I-F</label>
-            <div class="content">
-              <form name="actif-form" id="actif-form" onsubmit="return sentform(event, 'actif');" >
-                <div class="container" >Préambule<hr/>
+            <!-- Fenêtre modale -->
+            <div id="customModal" class="modal">
+              <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="container">Modifier le <b>Prompt</b> obtenu<hr/>
                   <p class="width-100">
-                    Cet assistant de création de prompt pour <b>IA générative de texte</b> est basé sur la méthode :
-                  </p>
-                  <div class="width-100 center">
-                    <span>A</span>ction <span>C</span>ontexte <span>T</span>onalité <span>I</span>dentité <span>F</span>ormat
-                  </div>
-                  <p class="width-100">
-                    Il a pour but de vous aider dans la construction de votre prompt avec des propositions.
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>A</span>ction<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_actif-action" name="area_actif-action"  placeholder="Indiquer l'action (tâche) à réaliser. Exemple : rédige un courriel. " rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>C</span>ontexte<hr/>
-                  <p class="width-100">
-                    <select class="width-35" name="actif-contexte1" id="actif-contexte1" onchange="updateOptions('actif-contexte1','actif-contexte2', 'area_actif-contexte');">
-                      <option value="">-- Sélectionner --</option>
-                    </select>
-                    <select class="width-45" name="actif-contexte2" id="actif-contexte2" onchange="writeinArea2('actif-contexte1','actif-contexte2','area_actif-contexte');" >
-                      <option value="">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_actif-contexte" name="aera_actif-contexte"  placeholder="Sélectionner ou définir le public visé. Exemple : tu t'adresses à..." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                  <p id="p-actif-ebep" style="display:none;" class="width-100"><b>L'élève a un besoin particulier, il est...</b>
-                    <select class="width-90" name="actif-ebep" id="actif-ebep" onchange="writeinArea('actif-ebep', 'area_actif-contexte');" >
-                      <option value="">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>T</span>onalité<hr/>
-                  <p class="width-100">Ton
-                    <select class="width-35" name="actif-tonalite" id="actif-tonalite" onchange="writeinArea('actif-tonalite','area_actif-tonalite');" >
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_actif-tonalite" name="area_actif-tonalite" placeholder="Sélectionner ou indiquer la tonalité de la réponse. Exemple : Je veux que tu utilises un ton sérieux." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>I</span>dentité<hr/>
-                  <p class="width-100">Je suis
-                    <select class="width-35" name="actif-metier1" id="actif-metier1" onchange="updateOptions('actif-metier1','actif-metier2', 'area_actif-identite');" >
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
-                    <select class="width-45" name="actif-metier2" id="actif-metier2" onchange="writeinArea2('actif-metier1','actif-metier2','area_actif-identite');">
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_actif-identite" name="area_actif-identite" placeholder="Sélectionner ou indiquer le rôle que doit tenir l'agent conversationnel. Exemple : Je veux que tu agisses comme un(e) [métier]." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>F</span>ormat<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_actif-format" name="area_actif-format" placeholder="Sélectionner ou indiquer le format de sortie. Exemple : Tu donneras la réponse sous forme d'un tableau." rows="5"></textarea>
-                  </p>
-                  <p class="width-100">
-                    <select class="width-35" name="actif-format" id="actif-format" onchange="writeinArea('actif-format','area_actif-format');" >
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
+                    <textarea class="width-90" id="modalText" name="modalText" rows="10"></textarea>
                   </p>
                 </div>
                 <div class="center" id="form-buttons">
-                  <button class="red width-35" type="button" onclick="resetFields('actif');">Effacer</button><button class="green width-35" type="submit" >Valider</button>
+                  <button class="red width-35" type="button" onclick="resetForm()">Nouveau</button>
+                  <button class="green width-35" type="button" onclick="copyTextAreaToClipboard();" >Copier</button>
+                  <input id="onglet" type="hidden" value="">
                 </div>
-              </form>
+                <div id="modal-link-texte" class="container">Tester votre <b>Prompt</b> sur...<hr/>
+                  <p>
+                    <a style="line-height: 4em;" href="https://duckduckgo.com/?q=DuckDuckGo&amp;ia=chat" target="_blank">DuckDuckGo AI</a>
+                    <a href="https://fr.vittascience.com/ia/text.php" target="_blank">Vittascience AI</a>
+                    <a href="https://euria.infomaniak.com/" target="_blank">Euria (Infomaniak)</a>
+                    <a href="https://lumo.proton.me/guest" target="_blank">Lumo (Proton)</a>
+                    <a href="https://mistral.ai/fr" target="_blank">Le chat (Mistral)</a>
+                    <a href="https://chatgpt.com/" target="_blank">ChatGPT</a>
+                  </p>
+                </div>
+                <div id="modal-link-trad" style="display:none;" class="container">Traduire votre <b>Prompt</b> en anglais<hr/>
+                  <p>
+                    <a href="https://www.deepl.com/fr/translator" target="_blank">Deepl traduction</a>
+                  </p>
+                </div>
+                <div id="modal-link-image" style="display:none;" class="container">Tester votre <b>Prompt</b> sur...<hr/>
+                  <p>
+                    <a href="https://dezgo.com/text2image/sdxl" target="_blank">Dezgo</a>
+                    <a href="https://fr.vittascience.com/ia/image-generate.php" target="_blank">Vittascience AI Image</a>
+                    <a href="https://www.ipic.ai/" target="_blank">Ipic</a>
+                    <a href="https://www.craiyon.com/" target="_blank">Craiyon</a>
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!----------------onglet-03-R-C-T-P-2F-2R-------------------------->
-          <div style="display:none;" id="div-rctp2f2r" style="display:block" class="tab"><input id="tab-3" name="tab-group-1" type="radio" onclick="">
-            <label for="tab-3">R-C-T-P-2F-2R</label>
-            <div class="content">
-              <form name="rctp2f2r" id="rctp2f2r-form" onsubmit="return sentform(event, 'rctp2f2r');" >
-                <div class="container" >Préambule<hr/>
-                  <p class="width-100">
-                    Cet assistant de création de prompt pour <b>IA générative de texte</b> est basé sur la méthode :
-                  </p>
-                  <div class="width-100 center">
-                    <span>R</span>ôle <span>C</span>ontexte <span>T</span>âche <span>P</span>récision <span>F</span>ormat <span>F</span>orme <span>R</span>estriction <span>R</span>endu
-                  </div>
-                  <p class="width-100">
-                    Il a pour but de vous aider dans la construction de votre prompt avec des propositions.
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>R</span>ôle<hr/>
-                  <p class="width-100">Je suis
-                    <select class="width-35" name="rctp2f2r-metier1" id="rctp2f2r-metier1" onchange="updateOptions('rctp2f2r-metier1','rctp2f2r-metier2', 'area_rctp2f2r-role');" >
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
-                    <select class="width-45" name="rctp2f2r-metier2" id="rctp2f2r-metier2" onchange="writeinArea2('rctp2f2r-metier1','rctp2f2r-metier2','area_rctp2f2r-role');">
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-role" name="area_rctp2f2r-role" placeholder="Sélectionner ou indiquer le rôle que doit tenir l'agent conversationnel. Exemple : Je veux que tu agisses comme un(e) [métier]." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>C</span>ontexte<hr/>
-                  <p class="width-100">
-                    <select class="width-35" name="rctp2f2r-contexte1" id="rctp2f2r-contexte1" onchange="updateOptions('rctp2f2r-contexte1','rctp2f2r-contexte2', 'area_rctp2f2r-contexte');">
-                      <option value="">-- Sélectionner --</option>
-                    </select>
-                    <select class="width-45" name="rctp2f2r-contexte2" id="rctp2f2r-contexte2" onchange="writeinArea2('rctp2f2r-contexte1','rctp2f2r-contexte2','area_rctp2f2r-contexte');" >
-                      <option value="">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-contexte" name="aera_rctp2f2r-contexte"  placeholder="Sélectionner ou définir le public visé. Exemple tu t'adresses à..." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                  <p id="p-rctp2f2r-ebep" style="display:none;" class="width-100"><b>L'élève a un besoin particulier, il est...</b>
-                    <select class="width-90" name="rctp2f2r-ebep" id="rctp2f2r-ebep" onchange="writeinArea('rctp2f2r-ebep', 'area_rctp2f2r-contexte');" >
-                      <option value="">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>T</span>âche<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-tache" name="aera_rctp2f2r-tache"  placeholder="Indiquer la tâche à réaliser. Exemple : Rédige un courriel." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>P</span>récision<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-precision" name="area_rctp2f2r-precision"  placeholder="Ajouter des critères spécifiques. Exemple : je souhaite une introduction, un développement, une conclusion et une formule de politesse à la fin du message. " rows="5" ></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>F</span>ormat<hr/>
-                  <p class="width-100">
-                    <select class="width-35" name="rctp2f2r-format" id="rctp2f2r-format" onchange="writeinArea('rctp2f2r-format','area_rctp2f2r-format');" >
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-format" name="area_rctp2f2r-format" placeholder="Sélectionner ou indiquer le format de sortie. Exemple : Tu donneras la réponse sous forme d'un texte." rows="5"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>F</span>orme<hr/>
-                  <p class="width-100">
-                    <select class="width-35" name="rctp2f2r-forme" id="rctp2f2r-forme" onchange="writeinArea('rctp2f2r-forme','area_rctp2f2r-forme');" >
-                      <option value="0">-- Sélectionner --</option>
-                    </select>
-                  </p>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-forme" name="area_rctp2f2r-forme" placeholder="Sélectionner ou indiquer la forme : le style de rédaction attendu." rows="5"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>R</span>estriction<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-restriction" name="area_rctp2f2r-restriction" placeholder="Indiquer les informations que vous souhaitez limiter." rows="5"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>R</span>endu<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_rctp2f2r-rendu" name="area_rctp2f2r-rendu" placeholder="Indiquer l'objectif final attendu." rows="5"></textarea>
-                  </p>
-                </div>
-                <div class="center" id="form-buttons">
-                  <button class="red width-35" type="button" onclick="resetFields('rctp2f2r');">Effacer</button><button class="green width-35" type="submit" >Valider</button>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <!----------------onglet-04-I-M-A-G-E-S-------------------------->
-          <div style="display:none;" id="div-images" class="tab"><input id="tab-4" name="tab-group-1" type="radio" onclick="">
-            <label for="tab-4">I-M-A-G-E-S</label>
-            <div class="content">
-              <form name="images" id="files-images" onsubmit="return sentform(event, 'images');">
-                <div class="container" >Préambule<hr/>
-                  <p class="width-100">
-                    Cet assistant de création de prompt pour <b>IA générative d'image</b> est basé sur la méthode :
-                  </p>
-                  <div class="width-100 center">
-                    <span>I</span>ntention <span>M</span>otif <span>A</span>mbiance <span>G</span>rain <span>E</span>sthétique <span>S</span>tyle
-                  </div>
-                  <p class="width-100">
-                    Il a pour but de vous aider dans la construction de votre prompt.
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>I</span>ntention<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_images-intention" name="area_images-intention"  placeholder="Que voulez-vous transmettre ou représenter ? Définir le contexte et l'objectif. Exemple : Créer une illustration pour enseigner les habitats de animaux." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>M</span>otif<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_images-motif" name="area_images-motif"  placeholder="Le motif est le coeur de l'image : le personnage, l'objet ou le lieu. Exemple : un renard assis dans une prairie." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>A</span>mbiance<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_images-ambiance" name="area_images-ambiance"  placeholder="L'ambiance reflète l'athmosphère générale de l'image. Exemple : une ambiance féérique avec des tons pastels et une lumière douce." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>G</span>rain<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_images-grain" name="area_images-grain"  placeholder="Le grain défini le niveau de précision attendu. Exemple : des fleurs colorées et des herbes hautes détaillées autour du renard." rows="5"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir une <span>E</span>sthétique<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_images-esthetique" name="area_images-esthetique"  placeholder="L'esthétique concerne la disposition des élèments et le cadrage de l'image. Exemple : un plan rapproché sur le renard avec une prairie flou en arrière plan." rows="5"></textarea>
-                  </p>
-                </div>
-                <div class="container" >Définir un <span>S</span>tyle<hr/>
-                  <p class="width-100">
-                    <textarea class="width-90" id="area_images-style" name="area_images-style"  placeholder="Le style comprend les genres artistiques, les références culturelles ou mouvements artistiques. Exemple : Inspiré des peintures impressionnistes." rows="5" required="required" data-error="Cet élément doit être saisi"></textarea>
-                  </p>
-                </div>
-                <div class="center" id="form-buttons">
-                  <button class="red width-35" type="button" onclick="resetFields('images');">Effacer</button>
-                  <button class="green width-35" type="submit" >Valider</button>
-                </div>
-              </form>
-            </div>
-          </div>
-
-          <!-- Fenêtre modale -->
-          <div id="customModal" class="modal">
-            <div class="modal-content">
-              <span class="close" onclick="closeModal()">&times;</span>
-              <div class="container">Modifier le <b>Prompt</b> obtenu<hr/>
-                <p class="width-100">
-                  <textarea class="width-90" id="modalText" name="modalText" rows="10"></textarea>
-                </p>
-              </div>
-              <div class="center" id="form-buttons">
-                <button class="red width-35" type="button" onclick="resetForm()">Nouveau</button>
-                <button class="green width-35" type="button" onclick="copyTextAreaToClipboard();" >Copier</button>
-                <input id="onglet" type="hidden" value="">
-              </div>
-              <div id="modal-link-texte" class="container">Tester votre <b>Prompt</b> sur...<hr/>
-                <p>
-                  <a style="line-height: 4em;" href="https://duckduckgo.com/?q=DuckDuckGo&amp;ia=chat" target="_blank">DuckDuckGo AI</a>
-                  <a href="https://fr.vittascience.com/ia/text.php" target="_blank">Vittascience AI</a>
-                  <a href="https://euria.infomaniak.com/" target="_blank">Euria (Infomaniak)</a>
-                  <a href="https://lumo.proton.me/guest" target="_blank">Lumo (Proton)</a>
-                  <a href="https://mistral.ai/fr" target="_blank">Le chat (Mistral)</a>
-                  <a href="https://chatgpt.com/" target="_blank">ChatGPT</a>
-                </p>
-              </div>
-              <div id="modal-link-trad" style="display:none;" class="container">Traduire votre <b>Prompt</b> en anglais<hr/>
-                <p>
-                  <a href="https://www.deepl.com/fr/translator" target="_blank">Deepl traduction</a>
-                </p>
-              </div>
-              <div id="modal-link-image" style="display:none;" class="container">Tester votre <b>Prompt</b> sur...<hr/>
-                <p>
-                  <a href="https://dezgo.com/text2image/sdxl" target="_blank">Dezgo</a>
-                  <a href="https://fr.vittascience.com/ia/image-generate.php" target="_blank">Vittascience AI Image</a>
-                  <a href="https://www.ipic.ai/" target="_blank">Ipic</a>
-                  <a href="https://www.craiyon.com/" target="_blank">Craiyon</a>
-                </p>
-              </div>
-            </div>
           </div>
         </div>
-      </main>
-      <footer id="footer" class="center">
-        <a href="mailto:yoann.veillet@ac-dijon.fr">Y.VEILLET</a> |
-        <a target="_blank" href="https://drne.region-academique-bourgogne-franche-comte.fr/">DRANE Bourgogne-Franche-Comté</a> |
-        <a target="_blank" href="https://forge.apps.education.fr/drane-bfc/assistant-prompt">Sources</a> |
-        <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">CC BY NC SA</a>
-      </footer>
-      <script type="text/javascript" src="js/script.js"></script>
-    </body>
-    </html>
+      </div>
+    </main>
+    <footer id="footer" class="center">
+      <p>Adapté à partir de l'assistant de prompt de Yoann VEILLET</p><br>
+      <a target="_blank" href="https://forge.apps.education.fr/drane-bfc/assistant-prompt">Sources</a> |
+      <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr">CC BY NC SA</a>
+    </footer>
+    <script type="text/javascript" src="js/script.js"></script>
+  </body>
+</html>
